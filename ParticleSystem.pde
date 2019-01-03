@@ -1,5 +1,5 @@
 /*
-  Emanuel Wiens 7792135
+  Emanuel W.
   Nov 22, 2018
   This is my Particle System. The particles start in a spiral and 
   bounce off one another and the walls. 
