@@ -21,13 +21,14 @@ class Particle {
     b = 0;
   }
 
-  void updatePosition() {
+  boolean updatePosition() {
     x += v.x;
     y += v.y;
     
     checkForParticleCollision();
-    updateFromWallCollision();
+    boolean temp = updateFromWallCollision();
     fixOverlap();
+    return temp;
   }
   
   void fixOverlap() {
@@ -85,16 +86,16 @@ class Particle {
     }
 
     // on y
-    if (y + diameter / 2 > height) {
+    if (y + diameter / 2 > container.lowerMost()) {
       v.y = -v.y;
       updated = true;
       
-      y = height - diameter / 2;
-    } else if (y - diameter / 2 < 0) {
+      y = container.lowerMost() - diameter / 2;
+    } else if (y - diameter / 2 < container.upperMost()) {
       v.y = -v.y;
       updated = true;
       
-      y = diameter / 2;
+      y = container.upperMost() + diameter / 2;
     }
     
     if (updated) 

@@ -10,16 +10,17 @@
 ArrayList<Particle> p = new ArrayList<Particle>();
 boolean start = false;
 
-final int pCount = 100;
-final float maxSpeeds = 1;
+int pCount = 100;
+final float maxSpeeds = 10;
 final float maxMass = 1, minMass = 1;
 Container container;
+float avgPressure = 0, tempPressure = 0, tempLoops = 0;
+final float maxLoops = 120;
 
 void setup() {
   size(1800,900,P3D);  
   setupParticlesInSpiral();
-  container = new Container(200, 200); 
-  frameRate(120);
+  container = new Container(400, 600);
 }
 
 void draw() {
@@ -28,12 +29,22 @@ void draw() {
   for (int i = 0; i < p.size(); i++) {
     stroke(color(p.get(i).r, p.get(i).g, p.get(i).b));
     
-    if (start)
-      p.get(i).updatePosition();
+    if (start) {
+      if (p.get(i).updatePosition()) {
+        tempPressure++;
+      }
+    }
     p.get(i).draw();
   }
+  tempLoops++;
   
- container.draw(); 
+  container.draw(); 
+ 
+  if (tempLoops == maxLoops) {
+    avgPressure = tempPressure / tempLoops;
+    tempPressure = tempLoops = 0;
+  }
+  println(avgPressure);
 }
 
 void keyPressed() {

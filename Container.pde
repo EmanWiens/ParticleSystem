@@ -13,8 +13,8 @@ class Container {
   public float leftMost() { return width / 2 - widthC / 2; }
   public float rightMost() { return width / 2 + widthC / 2; }
   
-  public float upperMost() { return width / 2 - widthC / 2; }
-  public float lowerMost() { return width / 2 + widthC / 2; }
+  public float upperMost() { return height / 2 - heightC / 2; }
+  public float lowerMost() { return height / 2 + heightC / 2; }
   
   public void draw() {
     float centerX = width / 2;
