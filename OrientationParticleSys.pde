@@ -10,32 +10,30 @@
 ArrayList<Particle> p = new ArrayList<Particle>();
 boolean start = false;
 
-final int pCount = 1000;
-final float maxSpeeds = .25;
-final float maxMass = 1, minMass = .25;
-float beforeMilli = 0, afterMilli = 0, diffMilli = 0;
-float frameR = 60;
+final int pCount = 100;
+final float maxSpeeds = 1;
+final float maxMass = 1, minMass = 1;
+Container container;
 
 void setup() {
-  size(640,640,P3D);  
+  size(1800,900,P3D);  
   setupParticlesInSpiral();
+  container = new Container(200, 200); 
+  frameRate(120);
 }
 
 void draw() {
-  frameRate(frameR);
   background(255);
-  beforeMilli = millis();
   
   for (int i = 0; i < p.size(); i++) {
     stroke(color(p.get(i).r, p.get(i).g, p.get(i).b));
     
     if (start)
-      p.get(i).updatePosition(diffMilli);
+      p.get(i).updatePosition();
     p.get(i).draw();
   }
-
-  afterMilli = millis();
-  diffMilli = afterMilli - beforeMilli;
+  
+ container.draw(); 
 }
 
 void keyPressed() {

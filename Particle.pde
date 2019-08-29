@@ -21,9 +21,9 @@ class Particle {
     b = 0;
   }
 
-  void updatePosition(float timeRatio) {
-    x += v.x * timeRatio;
-    y += v.y * timeRatio;
+  void updatePosition() {
+    x += v.x;
+    y += v.y;
     
     checkForParticleCollision();
     updateFromWallCollision();
@@ -72,16 +72,16 @@ class Particle {
   private boolean updateFromWallCollision() {
     boolean updated = false;
     // out on x
-    if (x + diameter / 2 > width) {
+    if (x + diameter / 2 > container.rightMost()) {
       v.x = -v.x;
       updated = true;
       
-      x = width - diameter / 2;
-    } else if (x - diameter / 2 < 0) {
+      x = container.rightMost() - diameter / 2;
+    } else if (x - diameter / 2 < container.leftMost()) {
       v.x = -v.x;
       updated = true;
       
-      x = diameter / 2;
+      x = container.leftMost() + diameter / 2;
     }
 
     // on y
