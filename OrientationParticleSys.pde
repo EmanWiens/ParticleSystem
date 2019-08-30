@@ -10,17 +10,23 @@
 ArrayList<Particle> p = new ArrayList<Particle>();
 boolean start = false;
 
-int pCount = 100;
+int pCount = 200;
 final float maxSpeeds = 10;
 final float maxMass = 1, minMass = 1;
 Container container;
 float avgPressure = 0, tempPressure = 0, tempLoops = 0;
-final float maxLoops = 120;
+final float maxLoops = 60;
+Button[] buttons;
+int numButtons = 1;
 
 void setup() {
   size(1800,900,P3D);  
   setupParticlesInSpiral();
   container = new Container(400, 600);
+  buttons = new Button[numButtons];
+  
+  buttons[0] = new Button(150, 150, "Up");
+  //buttons[1] = new Button(100, 150, "Down");
 }
 
 void draw() {
@@ -40,9 +46,14 @@ void draw() {
   
   container.draw(); 
  
-  if (tempLoops == maxLoops) {
+  if (tempLoops >= maxLoops) {
+    println(avgPressure + " = " + tempPressure + " / " + tempLoops);
     avgPressure = tempPressure / tempLoops;
     tempPressure = tempLoops = 0;
+  }
+  
+  for (int i = 0; i < numButtons; i++) {
+    buttons[i].draw();
   }
   println(avgPressure);
 }

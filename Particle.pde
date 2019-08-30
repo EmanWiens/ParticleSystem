@@ -97,9 +97,6 @@ class Particle {
       
       y = container.upperMost() + diameter / 2;
     }
-    
-    if (updated) 
-      changeColor(this);
 
     return updated;
   }
@@ -125,40 +122,7 @@ class Particle {
   }
   
   private void changeColor(Particle part) {
-    if (part.red) {
-      part.r++;
-      
-      if (part.b > 0)
-        part.b--;
-      
-      if (part.r > 255) {
-        part.red = false;
-        part.green = true;
-        part.blue = false;
-      }
-    } else if (part.green) {
-      part.g++;
-      
-      if (part.r > 0)
-        part.r--;
-      
-      if (part.g > 255) {
-        part.red = false;
-        part.green = false;
-        part.blue = true;
-      }
-    } else if (part.blue) {
-      part.b++;
-      
-      if (part.g > 0)
-        part.g--;
-        
-      if (part.b > 255) {
-        part.red = true;
-        part.green = false;
-        part.blue = false;
-      }
-    }
+    
   }
 
   private void updateFromParticleCollision(Particle p2) {
