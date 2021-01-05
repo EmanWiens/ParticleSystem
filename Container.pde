@@ -26,6 +26,7 @@ class Container {
     float y2 = centerY + heightC / 2;
     
     strokeWeight(1);
+    stroke(0);
     line(x1, y1, x1, y2);
     line(x2, y1, x2, y2);
     

@@ -11,56 +11,45 @@ ArrayList<Particle> p = new ArrayList<Particle>();
 boolean start = false;
 
 int pCount = 200;
-final float maxSpeeds = 10;
-final float maxMass = 1, minMass = 1;
+final float maxSpeeds = 5;
+final float maxMass = 5, minMass = 1;
+final float maxDiam = 2;
 Container container;
-float avgPressure = 0, tempPressure = 0, tempLoops = 0;
 final float maxLoops = 60;
-Button[] buttons;
-int numButtons = 1;
 
 void setup() {
-  size(1800,900,P3D);  
+  size(500,500,P3D);  
   setupParticlesInSpiral();
-  container = new Container(400, 600);
-  buttons = new Button[numButtons];
-  
-  buttons[0] = new Button(150, 150, "Up");
-  //buttons[1] = new Button(100, 150, "Down");
+  container = new Container(400, 400);
 }
 
 void draw() {
   background(255);
+  container.widthC = (int)(width * .8f);
+  container.heightC = (int)(height * .8f);
+  
+  if (!start) {
+    fill(0);
+    String temp = "Press space to start";
+    text(temp, width / 2 - textWidth(temp) / 2, textAscent());
+  }
   
   for (int i = 0; i < p.size(); i++) {
     stroke(color(p.get(i).r, p.get(i).g, p.get(i).b));
     
     if (start) {
-      if (p.get(i).updatePosition()) {
-        tempPressure++;
-      }
+      p.get(i).updatePosition();
     }
     p.get(i).draw();
   }
-  tempLoops++;
   
   container.draw(); 
- 
-  if (tempLoops >= maxLoops) {
-    println(avgPressure + " = " + tempPressure + " / " + tempLoops);
-    avgPressure = tempPressure / tempLoops;
-    tempPressure = tempLoops = 0;
-  }
-  
-  for (int i = 0; i < numButtons; i++) {
-    buttons[i].draw();
-  }
-  println(avgPressure);
 }
 
 void keyPressed() {
-  if (key == ' ')
+  if (key == ' ') {
     start = !start;
+  }
 }
 
 void setupParticlesInSpiral() {
@@ -69,18 +58,17 @@ void setupParticlesInSpiral() {
   int layer = 0;
   int layerParticleCount = 0;
   float mass;
-  Particle temp = new Particle(-100, -100, 0, 0, 1, -1);
+  Particle temp = new Particle(-100, -100, 0, 0, maxMass * maxDiam / 2, -1);
   
   for (int i = 0; i < pCount; i++) {
     x = float(width)/2 + temp.diameter * layer * cos(angleOfRotation * i);
     y = float(height)/2 + temp.diameter * layer * sin(angleOfRotation * i);
     mass = random(minMass, maxMass);
     
-    p.add(new Particle(x, y, random(-maxSpeeds, maxSpeeds), 
-          mass * random(-maxSpeeds, maxSpeeds), mass, i));
+    p.add(new Particle(x, y, random(-maxSpeeds, maxSpeeds), random(-maxSpeeds, maxSpeeds), mass, i));
     layerParticleCount++;
     
-    if (i == 0 || angleOfRotation * (layerParticleCount + 1) > 2*PI) {
+    if (i == 0 || angleOfRotation * (layerParticleCount + 1) > 2 * PI) {
       layer++;
       layerParticleCount = 0;
       angleOfRotation = 2*PI * temp.diameter * layer / temp.diameter;

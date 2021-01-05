@@ -1,8 +1,7 @@
 class Particle {
   float x, y;
   PVector v;
-  final float maxDiameter = 10;
-  float diameter = maxDiameter;
+  float diameter;
   int id;
   float mass;
   float r, g, b;
@@ -15,10 +14,10 @@ class Particle {
     v = new PVector(vX, vY);
     this.id = id;
     this.mass = mass;
-    diameter = mass * maxDiameter;
-    r = 0;
-    g = 0;
-    b = 0;
+    diameter = mass * maxDiam;
+    r = random(0, 255);
+    g = random(0, 255);
+    b = random(0, 255);
   }
 
   boolean updatePosition() {
@@ -122,7 +121,53 @@ class Particle {
   }
   
   private void changeColor(Particle part) {
+    if (part.red) {
+      part.r++; 
+      part.g--; 
+      part.b--;
+      
+      if (part.g < 0)
+        part.g = 0;
+      if (part.b < 0)
+        part.b = 0;
+      
+      if (part.r >= 255) {
+        part.red = false;
+        part.green = true; 
+      }
+    } 
     
+    if (part.green) {
+      part.r--; 
+      part.g++; 
+      part.b--;
+      
+      if (part.r < 0)
+        part.r = 0;
+      if (part.b < 0)
+        part.b = 0;
+      
+      if (part.g >= 255) {
+        part.green = false;
+        part.blue = true;
+      }
+    } 
+    
+    if (part.blue) {
+      part.r--; 
+      part.g--; 
+      part.b++;
+      
+      if (part.r < 0)
+        part.r = 0;
+      if (part.g < 0)
+        part.g = 0;
+      
+      if (part.b >= 255) {
+        part.blue = false;
+        part.red = true;
+      }
+    }
   }
 
   private void updateFromParticleCollision(Particle p2) {
